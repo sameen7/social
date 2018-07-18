@@ -1,9 +1,9 @@
 <template>
   <div class="layout">
     <Layout class="main">
-      <Header>
-        <Menu mode="horizontal" theme="dark" :active-name=activeName @on-select="goMenu">
-          <div class="layout-logo"><img src="./assets/logo.png"/></div>
+      <Header v-if="!loginPath">
+        <Menu :class="activeName == 'home' ? 'light' : 'dark'" mode="horizontal" theme="dark" :active-name=activeName @on-select="goMenu">
+          <div class="layout-logo" v-if="activeName != 'home'">北航社会实践大数据平台</div>
           <div class="layout-nav">
             <MenuItem name="home">
               <Icon type="home"></Icon>
@@ -28,7 +28,7 @@
           </div>
         </Menu>
       </Header>
-      <Content class="content">
+      <Content :class="activeName == 'home' || loginPath ? 'content2' : 'content'">
         <router-view></router-view>
       </Content>
       <Footer class="layout-footer-center">2018北京航空航天大学      地址：北京市海淀区学院路37号      邮编：100083      电话：82317114</Footer>
@@ -60,14 +60,16 @@ export default {
   },
   data () {
     return {
-      activeName: ""
-
+      activeName: "",
+        login: login,
+        loginPath: false
     }
   },
   created: function () {
     this.pathChange();
   },
   mounted: function() {
+
   },
   watch: {
     '$route': "pathChange"
@@ -85,8 +87,10 @@ export default {
       var path = this.$route.path;
       if(path == "/"){
         this.activeName = "home";
+      }else if(path == "/login" || path == "/register"){
+        this.loginPath = true;
       }else{
-        this.activeName = path.replace("/", "");
+          this.activeName = path.replace("/", "");
       }
     }
   }
@@ -94,8 +98,14 @@ export default {
 </script>
 
 <style scoped>
+  .main {
+    height: 100%;
+  }
   .content {
     padding: 0 50px;
+  }
+  .content2 {
+    padding: 0 0;
   }
   .bread {
     margin: 20px 0;
@@ -108,16 +118,16 @@ export default {
     overflow: hidden;
     height: 100%;
   }
-  .main {
-    height: 100%;
-  }
   .layout-logo{
-    width: 100px;
-    height: 30px;
+    /*width: 100px;*/
+    /*height: 30px;*/
     float: left;
     position: relative;
-    top: 15px;
+    /*top: 15px;*/
     left: 20px;
+    color: #fff;
+    font-size: 1.7rem;
+    font-weight: 500;
   }
   .layout-nav{
     width: 450px;
@@ -127,4 +137,15 @@ export default {
   .layout-footer-center{
     text-align: center;
   }
+  .light {
+    background-color: transparent;
+    background-image: url("assets/bg_01.jpg");
+    background-repeat: no-repeat;
+    /*background-size: cover;*/
+    background-size: 100% 100%;
+  }
+  .dark {
+    background-color: #2d8cf0;
+  }
+
 </style>

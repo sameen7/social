@@ -48,11 +48,17 @@
             <Input v-model="city" class="cityInput" icon="ios-search" placeholder="Enter something..."></Input>
           </p>
         </Col>
-        <Col span="4" class="btn">
-          <Button type="primary" icon="ios-search" shape="circle" class="innerBtn" @click="search" :loading="!(depChoose || date || teamName || ID || teacher || name || province || city)">
-            <span v-if="depChoose || date || teamName || ID || teacher || name || province || city">Search</span>
-            <span v-else>waiting...</span>
-          </Button>
+        <Col span="4">
+          <p class="number">
+            <span>编号：</span>
+            <Input v-model="number" class="numberInput" icon="ios-search" placeholder="Enter something..."></Input>
+          </p>
+          <p class="btn">
+            <Button type="primary" icon="ios-search" shape="circle" class="innerBtn" @click="search" :loading="!(depChoose || date || teamName || ID || teacher || name || province || city || this.number)">
+              <span v-if="depChoose || date || teamName || ID || teacher || name || province || city || this.number">Search</span>
+              <span v-else>waiting...</span>
+            </Button>
+          </p>
         </Col>
       </Row>
       <Row class="team">
@@ -73,7 +79,7 @@
                 <Icon type="information-circled"></Icon>
                 基本信息
               </p>
-              <Table class="info" height="336" :loading="loading" :show-header="ifShow" stripe :columns="info" :data="Information" ref="table2"></Table>
+              <Table class="info" height="336" :loading="loading || ProjectList.length == 0" :show-header="ifShow" stripe :columns="info" :data="Information" ref="table2"></Table>
             </Card>
           </Row>
           <Row class="memberInfo">
@@ -82,7 +88,7 @@
                 <Icon type="person"></Icon>
                 队员信息
               </p>
-              <Table class="member" height="240" :loading="loading" stripe :columns="mem" :data="Member" ref="table3"></Table>
+              <Table class="member" height="240" :loading="loading || ProjectList.length == 0" stripe :columns="mem" :data="Member" ref="table3"></Table>
             </Card>
           </Row>
         </Col>
@@ -92,7 +98,7 @@
               <Icon type="calendar"></Icon>
               日程
             </p>
-            <Table class="schedule" height="690" :loading="loading" stripe :columns="sche" :data="Schedule" ref="table4"></Table>
+            <Table class="schedule" height="690" :loading="loading || ProjectList.length == 0" stripe :columns="sche" :data="Schedule" ref="table4"></Table>
           </Card>
         </Col>
       </Row>
@@ -122,7 +128,7 @@
         return {
           departList: [
             {
-              value: "all",
+              value: -1,
               label: "全体"
             },
             {
@@ -210,16 +216,12 @@
               label: "21系"
             },
             {
-              value: 22,
-              label: "22系"
-            },
-            {
               value: 23,
               label: "23系"
             },
             {
               value: 24,
-              label: "21系"
+              label: "24系"
             },
             {
               value: 26,
@@ -251,9 +253,6 @@
               value: 77,
               label: "77系"
             },{
-              value: 78,
-              label: "78系"
-            },{
               value: 79,
               label: "79系"
             },{
@@ -273,7 +272,12 @@
           ID: "",
           teacher: "",
           name: "",
+            number: "",
           team5: [
+              {
+                  title: '编号',
+                  key: 'uid'
+              },
             {
               title: '系号',
               key: 'dep'
@@ -341,9 +345,103 @@
           ],
           Schedule: [],
           province: "",
-          city: ""
+          city: "",
+            Info1: [
+                {
+                    title: '编号',
+                    key: 'uid'
+                },
+                {
+                    title: '队名',
+                    key: 'tna'
+                },
+                {
+                    title: '系号',
+                    key: 'dep'
+                },
+                {
+                    title: '队长',
+                    key: 'lna'
+                },
+                {
+                    title: '队长电话',
+                    key: '队长电话'
+                },
+                {
+                    title: '指导教师',
+                    key: 'tte'
+                },
+                {
+                    title: '指导教师电话',
+                    key: '指导教师电话'
+                },
+                {
+                    title: '人数',
+                    key: 'men'
+                }
+            ],
+            Data1: [],
+            Info2: [
+                {
+                    title: '编号',
+                    key: 'uid'
+                },
+                {
+                    title: '队名',
+                    key: 'tna'
+                },
+                {
+                    title: '系号',
+                    key: 'dep'
+                },
+                {
+                    title: '队长',
+                    key: 'lna'
+                },
+                {
+                    title: '队长电话',
+                    key: '队长电话'
+                },
+                {
+                    title: '指导教师',
+                    key: 'tte'
+                },
+                {
+                    title: '指导教师电话',
+                    key: '指导教师电话'
+                },
+                {
+                    title: '人数',
+                    key: 'men'
+                }
+            ],
+            Data2: []
         }
       },
+        created: function() {
+          var i;
+          for(i = 0; i < 34; i++){
+              var c = {};
+              c["title"] = "队员" + (i+1);
+              c["key"] = "sna" + (i+1);
+              var d = {};
+              d["title"] = "学号" + (i+1);
+              d["key"] = "sno" + (i+1);
+              this.Info1.push(c);
+              this.Info1.push(d);
+          }
+          for(i = 0; i < 65; i++){
+              var c = {};
+              c["title"] = "日期" + (i+1);
+              c["key"] = "dat" + (i+1);
+              var d = {};
+              d["title"] = "省市" + (i+1);
+              d["key"] = "procit" + (i+1);
+              this.Info2.push(c);
+              this.Info2.push(d);
+          }
+          // console.log(this.allInfo);
+        },
       methods: {
         formatDate (date, fmt) {
           if (/(y+)/.test(fmt)) {
@@ -368,14 +466,18 @@
           return ('00' + str).substr(str.length);
         },
         search() {
-          if(this.depChoose || this.date || this.teamName || this.ID || this.teacher || this.name || this.province || this.city){
+            this.Information = [];
+            this.Member = [];
+            this.Schedule = [];
+            this.loading = true;
+          if(this.depChoose || this.date || this.teamName || this.ID || this.teacher || this.name || this.province || this.city || this.number){
             var d = "";
             if(this.date != ""){
               d = this.formatDate(this.date, "yyyy-MM-dd");
             }
             console.log(d);
             axios.defaults.withCredentials = true;
-            axios.get('/api/Search?dep=' + this.depChoose + "&tname=" + this.teamName + "&teacher=" + this.teacher + "&date=" + d + "&stno=" + this.ID + "&stname=" + this.name + "&pro=" + this.province + "&cit=" + this.city).then(response => {
+            axios.get('/api/Search?dep=' + this.depChoose + "&tname=" + this.teamName + "&teacher=" + this.teacher + "&date=" + d + "&stno=" + this.ID + "&stname=" + this.name + "&pro=" + this.province + "&cit=" + this.city + "&tno=" + this.number).then(response => {
               // console.log(response.data);
               this.ProjectList = response.data.ProjectList;
               this.Projects = response.data.Projects;
@@ -391,25 +493,44 @@
           this.loading = false;
         },
         exportData () {
-          this.$refs.table1.exportCsv({
-            filename: '实践队'
-          });
-          if(!this.loading){
+            var ProjectList = this.ProjectList;
+            var Projects = this.Projects;
+            var i;
+            this.Data1 = ProjectList;
+            this.Data2 = ProjectList;
+            console.log(this.ProjectList);
+            for(i = 0; i < ProjectList.length; i++){
+                this.Data1[i]["队长电话"] = Projects[i].Information[4].value;
+                this.Data1[i]["指导教师电话"] = Projects[i].Information[6].value;
+                this.Data2[i]["队长电话"] = Projects[i].Information[4].value;
+                this.Data2[i]["指导教师电话"] = Projects[i].Information[6].value;
+                var j;
+                var member = Projects[i].Member;
+                for(j = 0; j < member.length; j++){
+                    var sna = "sna" + (j+1);
+                    var sno = "sno" + (j+1);
+                    this.Data1[i][sna] = member[j].sna;
+                    this.Data1[i][sno] = member[j].sno;
+                }
+                var sche = Projects[i].Schedule;
+                for(j = 0; j < sche.length; j++){
+                    var dat = "dat" + (j+1);
+                    var procit = "procit" + (j+1);
+                    this.Data2[i][dat] = sche[j].dat;
+                    this.Data2[i][procit] = sche[j].pro + sche[j].cit;
+                }
+            }
+            console.log(this.Data1);
+            this.$refs.table1.exportCsv({
+                filename: '实践队信息统计',
+                columns: this.Info1,
+                data: this.Data1
+            });
             this.$refs.table2.exportCsv({
-              filename: '基本信息'
+                filename: '实践时间及地点统计',
+                columns: this.Info2,
+                data: this.Data2
             });
-            this.$refs.table3.exportCsv({
-              filename: '队员信息'
-            });
-            this.$refs.table4.exportCsv({
-              filename: '日程'
-            });
-          }else{
-            this.$Notice.warning({
-              title: '请选择一支队伍',
-              desc: ''
-            });
-          }
         }
       }
     }
@@ -423,13 +544,6 @@
     position: relative;
   }
 
-  .btn {
-    position: absolute;
-    top: 30%;
-    right: 0;
-    text-align: center;
-  }
-
   .departSel,
   .datePicker,
   .teamInput,
@@ -440,18 +554,22 @@
   }
 
   .provinceInput,
-  .cityInput {
+  .cityInput,
+  .numberInput  {
     width: 75%;
   }
 
   .date,
   .ID,
   .name,
-  .city {
+  .city,
+  .btn {
     margin-top: 20px;
   }
 
-
+  .btn {
+    text-align: center;
+  }
 
 
   .innerBtn {

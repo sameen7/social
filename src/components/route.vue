@@ -5,7 +5,7 @@
       <BreadcrumbItem>路线</BreadcrumbItem>
     </Breadcrumb>
     <Card dis-hover>
-      <Row class="date">
+      <Row class="date" :gutter="16">
         <span>日期：</span>
         <DatePicker class="datePicker" v-model="daterange" type="daterange" placeholder="请选择" @on-change="dateChange"></DatePicker>
       </Row>
@@ -15,12 +15,20 @@
             <Icon type="map"></Icon>
             社会实践队伍路线图
           </p>
-          <div id="chart">
 
-          </div>
+            <div class="mapcon">
+                <div id="chart">
+
+                </div>
+              <div class="table">
+                <Table class="teamTable" height="700" border ref="table" :columns="column1" :data="data1"></Table>
+              </div>
+
+
+            </div>
           <div class="checkAll">
             <Row class="all">
-              <Checkbox
+              <Checkbox class="checkbox"
                 :indeterminate="indeterminate"
                 :value="checkAll"
                 @click.prevent.native="handleCheckAll">全选</Checkbox>
@@ -39,7 +47,7 @@
 
 <script>
   import Vue from 'vue'
-  import { Breadcrumb, BreadcrumbItem, Col, Icon, Checkbox, CheckboxGroup, DatePicker, Row, Card} from 'iview';
+  import { Breadcrumb, BreadcrumbItem, Col, Icon, Checkbox, CheckboxGroup, DatePicker, Row, Card, Table} from 'iview';
   Vue.component('Breadcrumb', Breadcrumb);
   Vue.component('BreadcrumbItem', BreadcrumbItem);
   Vue.component('Col', Col);
@@ -49,6 +57,7 @@
   Vue.component('DatePicker', DatePicker);
   Vue.component('Row', Row);
   Vue.component('Card', Card);
+  Vue.component('Table', Table);
   import axios from 'axios'
   // const bmap = r => require.ensure([], () => r(require('echarts/extension/bmap/bmap')), 'bmap')
   require('echarts/extension/bmap/bmap');
@@ -63,7 +72,19 @@
             coordinates: [],
             routes: [],
             all: [],
-            daterange: []
+            daterange: [],
+              column1: [
+                  {
+                      title: "路线",
+                      key: "route"
+                  },
+                  {
+                      title: "队",
+                      key: "teamnum",
+                      width: 45
+                  }
+              ],
+              data1: []
           }
       },
       created: function () {
@@ -75,16 +96,20 @@
         this.daterange[1] = this.formatDate(new Date(now.setDate(now.getDate()+7)), "yyyy-MM-dd");
         this.getData(this.daterange);
         var i;
-        for(i = 1; i < 25; i++){
+        for(i = 1; i < 22; i++){
+          this.dno.push(i + "系");
+        }
+        for(i = 23; i < 25; i++){
           this.dno.push(i + "系");
         }
         this.dno.push("26系");
         this.dno.push("29系");
         this.dno.push("30系");
         this.dno.push("35系");
-        for(i = 73; i < 80; i++){
+        for(i = 73; i < 78; i++){
           this.dno.push(i + "系");
         }
+        this.dno.push("79系");
         this.dno.push("蓝协（100）");
         this.dno.push("团委（101）");
         this.dno.push("校会（102）");
@@ -122,8 +147,19 @@
             // console.log(response);
             this.routes = response.data.Routes;
             this.coordinates = response.data.Coordinates;
+              this.data = [];
+              for(var item in this.routes){
+                  var routes = this.routes[item];
+                  for(var key in routes){
+                      var route = routes[key];
+                      var c = {};
+                      c["route"] = route[0].name + "->" + route[1].name;
+                      c["teamnum"] = route[1].value;
+                      this.data1.push(c);
+                  }
+              }
+              console.log(this.data1);
             this.update();
-            // console.log(this.count);
           }).catch(error => {
             console.log("error");
           })
@@ -173,9 +209,9 @@
                 for(j = 0; j < item.length; j++){
                   // var tmp = [];
                   // tmp.push(item[j]);
-                  console.log("...");
-                  console.log(item[j]);
-                  console.log("...");
+                  // console.log("...");
+                  // console.log(item[j]);
+                  // console.log("...");
                   for(k = 0; k < all.length; k++){
                     if(item[j][0].name == all[k][0][0].name){
                       mark = k;
@@ -242,7 +278,7 @@
 
           var color = ['#6be6c1', '#46bee9', '#ffee51', '#e01f54'];
           var series = [];
-          console.log(this.all);
+          // console.log(this.all);
           if(this.all.length == 0){
             series.push({
                 name: "",
@@ -383,7 +419,7 @@
             bmap: { center: [104.114129, 37.550339], zoom: 5, roam: false, mapStyle: { styleJson: [ { "featureType": "water", "elementType": "all", "stylers": { "color": "#044161" } }, { "featureType": "land", "elementType": "all", "stylers": { "color": "#004981" } }, { "featureType": "boundary", "elementType": "geometry", "stylers": { "color": "#064f85" } }, { "featureType": "railway", "elementType": "all", "stylers": { "visibility": "off" } }, { "featureType": "highway", "elementType": "geometry", "stylers": { "color": "#004981" } }, { "featureType": "highway", "elementType": "geometry.fill", "stylers": { "color": "#005b96", "lightness": 1 } }, { "featureType": "highway", "elementType": "labels", "stylers": { "visibility": "off" } }, { "featureType": "arterial", "elementType": "geometry", "stylers": { "color": "#004981" } }, { "featureType": "arterial", "elementType": "geometry.fill", "stylers": { "color": "#00508b" } }, { "featureType": "poi", "elementType": "all", "stylers": { "visibility": "off" } }, { "featureType": "green", "elementType": "all", "stylers": { "color": "#056197", "visibility": "off" } }, { "featureType": "subway", "elementType": "all", "stylers": { "visibility": "off" } }, { "featureType": "manmade", "elementType": "all", "stylers": { "visibility": "off" } }, { "featureType": "local", "elementType": "all", "stylers": { "visibility": "off" } }, { "featureType": "arterial", "elementType": "labels", "stylers": { "visibility": "off" } }, { "featureType": "boundary", "elementType": "geometry.fill", "stylers": { "color": "#029fd4" } }, { "featureType": "building", "elementType": "all", "stylers": { "color": "#1a5787" } }, { "featureType": "label", "elementType": "all", "stylers": { "visibility": "off" } } ] } },
             series: series
           };
-          console.log(series);
+          // console.log(series);
           myChart.setOption(option, true);
         }
       }
@@ -394,8 +430,11 @@
   .bread {
     margin: 20px 0;
   }
+
   #chart {
     height: 700px;
+    width: 80%;
+    display: inline-block;
   }
   .map {
     margin-top: 20px;
@@ -404,6 +443,16 @@
     border-bottom: 1px solid #e9e9e9;
     padding-bottom:6px;
     margin-bottom:6px;
+  }
+  .datePicker {
+    width: 17rem;
+  }
+
+  .checkbox {
     margin-top: 20px;
+  }
+  .table {
+    width: 19%;
+    display: inline-block;
   }
 </style>

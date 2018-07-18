@@ -14,6 +14,10 @@
           <p slot="title">
             <Icon type="map"></Icon>
             社会实践队伍分布图
+            <span class="switch">
+              世界
+              <i-switch size="small" @on-change="change"></i-switch>
+            </span>
           </p>
           <div id="chart">
 
@@ -40,7 +44,7 @@
 <script>
   import info from '../MemberMap_sample'
   import Vue from 'vue'
-  import { Breadcrumb, BreadcrumbItem, Col, Icon, Checkbox, CheckboxGroup, DatePicker, Row, Card} from 'iview';
+  import { Breadcrumb, BreadcrumbItem, Col, Icon, Checkbox, CheckboxGroup, DatePicker, Row, Card, Switch} from 'iview';
   Vue.component('Breadcrumb', Breadcrumb);
   Vue.component('BreadcrumbItem', BreadcrumbItem);
   Vue.component('Col', Col);
@@ -50,6 +54,7 @@
   Vue.component('DatePicker', DatePicker);
   Vue.component('Row', Row);
   Vue.component('Card', Card);
+  Vue.component('iSwitch', Switch);
   import axios from 'axios'
   // const bmap = r => require.ensure([], () => r(require('echarts/extension/bmap/bmap')), 'bmap')
   require('echarts/extension/bmap/bmap');
@@ -64,7 +69,8 @@
           coordinates: [],
           count: [],
           countData: [],
-          date: ""
+          date: "",
+            zoom: 5
         }
       },
       created: function () {
@@ -74,22 +80,34 @@
         this.date = this.formatDate(new Date(), "yyyy-MM-dd")
         this.getData(this.date);
         var i;
-        for(i = 1; i < 25; i++){
+        for(i = 1; i < 22; i++){
+          this.dno.push(i + "系");
+        }
+        for(i = 23; i < 25; i++){
           this.dno.push(i + "系");
         }
         this.dno.push("26系");
         this.dno.push("29系");
         this.dno.push("30系");
         this.dno.push("35系");
-        for(i = 73; i < 80; i++){
+        for(i = 73; i < 78; i++){
           this.dno.push(i + "系");
         }
+        this.dno.push("79系")
         this.dno.push("蓝协（100）");
         this.dno.push("团委（101）");
         this.dno.push("校会（102）");
         this.checkAllGroup = this.dno;
       },
       methods: {
+          change (val) {
+              if(val){
+                  this.zoom = 1;
+              }else{
+                  this.zoom = 5;
+              }
+              this.drawMap();
+          },
         formatDate (date, fmt) {
           if (/(y+)/.test(fmt)) {
             fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
@@ -207,7 +225,7 @@
             tooltip : {
               trigger: 'item'
             },
-            bmap: { center: [104.114129, 37.550339], zoom: 5, roam: false, mapStyle: { styleJson: [ { "featureType": "water", "elementType": "all", "stylers": { "color": "#044161" } }, { "featureType": "land", "elementType": "all", "stylers": { "color": "#004981" } }, { "featureType": "boundary", "elementType": "geometry", "stylers": { "color": "#064f85" } }, { "featureType": "railway", "elementType": "all", "stylers": { "visibility": "off" } }, { "featureType": "highway", "elementType": "geometry", "stylers": { "color": "#004981" } }, { "featureType": "highway", "elementType": "geometry.fill", "stylers": { "color": "#005b96", "lightness": 1 } }, { "featureType": "highway", "elementType": "labels", "stylers": { "visibility": "off" } }, { "featureType": "arterial", "elementType": "geometry", "stylers": { "color": "#004981" } }, { "featureType": "arterial", "elementType": "geometry.fill", "stylers": { "color": "#00508b" } }, { "featureType": "poi", "elementType": "all", "stylers": { "visibility": "off" } }, { "featureType": "green", "elementType": "all", "stylers": { "color": "#056197", "visibility": "off" } }, { "featureType": "subway", "elementType": "all", "stylers": { "visibility": "off" } }, { "featureType": "manmade", "elementType": "all", "stylers": { "visibility": "off" } }, { "featureType": "local", "elementType": "all", "stylers": { "visibility": "off" } }, { "featureType": "arterial", "elementType": "labels", "stylers": { "visibility": "off" } }, { "featureType": "boundary", "elementType": "geometry.fill", "stylers": { "color": "#029fd4" } }, { "featureType": "building", "elementType": "all", "stylers": { "color": "#1a5787" } }, { "featureType": "label", "elementType": "all", "stylers": { "visibility": "off" } } ] } },
+            bmap: { center: [104.114129, 37.550339], zoom: this.zoom, roam: false, mapStyle: { styleJson: [ { "featureType": "water", "elementType": "all", "stylers": { "color": "#044161" } }, { "featureType": "land", "elementType": "all", "stylers": { "color": "#004981" } }, { "featureType": "boundary", "elementType": "geometry", "stylers": { "color": "#064f85" } }, { "featureType": "railway", "elementType": "all", "stylers": { "visibility": "off" } }, { "featureType": "highway", "elementType": "geometry", "stylers": { "color": "#004981" } }, { "featureType": "highway", "elementType": "geometry.fill", "stylers": { "color": "#005b96", "lightness": 1 } }, { "featureType": "highway", "elementType": "labels", "stylers": { "visibility": "off" } }, { "featureType": "arterial", "elementType": "geometry", "stylers": { "color": "#004981" } }, { "featureType": "arterial", "elementType": "geometry.fill", "stylers": { "color": "#00508b" } }, { "featureType": "poi", "elementType": "all", "stylers": { "visibility": "off" } }, { "featureType": "green", "elementType": "all", "stylers": { "color": "#056197", "visibility": "off" } }, { "featureType": "subway", "elementType": "all", "stylers": { "visibility": "off" } }, { "featureType": "manmade", "elementType": "all", "stylers": { "visibility": "off" } }, { "featureType": "local", "elementType": "all", "stylers": { "visibility": "off" } }, { "featureType": "arterial", "elementType": "labels", "stylers": { "visibility": "off" } }, { "featureType": "boundary", "elementType": "geometry.fill", "stylers": { "color": "#029fd4" } }, { "featureType": "building", "elementType": "all", "stylers": { "color": "#1a5787" } }, { "featureType": "label", "elementType": "all", "stylers": { "visibility": "off" } } ] } },
             series : [
               {
                 name: 'Number',
@@ -216,8 +234,8 @@
                 data: convertData(data),
                 symbolSize: function (val) {
                   var v = val[2];
-                  if(val[2] > 50){
-                    v = 50 + (val[2]-50)/50;
+                  if(val[2] > 40){
+                    v = 40 + (val[2]-40)/100;
                   }
                   return v;
                 },
@@ -254,8 +272,8 @@
                 }).slice(0, 5)),
                 symbolSize: function (val) {
                   var v = val[2];
-                  if(val[2] > 50){
-                    v = 50 + (val[2]-50)/50;
+                  if(val[2] > 40){
+                      v = 40 + (val[2]-40)/100;
                   }
                   return v;
                 },
@@ -312,5 +330,12 @@
     padding-bottom:6px;
     margin-bottom:6px;
     margin-top: 20px;
+  }
+  .switch {
+    float: right;
+    /*outline: none;*/
+    margin-right: 2px;
+    font-size: 1rem;
+    font-weight: 400;
   }
 </style>

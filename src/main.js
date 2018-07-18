@@ -23,6 +23,10 @@ const search = r => require.ensure([], () => r(require('./components/search')), 
 const number = r => require.ensure([], () => r(require('./components/number')), 'number')
 const route = r => require.ensure([], () => r(require('./components/route')), 'route')
 const upload = r => require.ensure([], () => r(require('./components/upload')), 'upload')
+const login = r => require.ensure([], () => r(require('./components/login')), 'login')
+const register = r => require.ensure([], () => r(require('./components/register')), 'register')
+
+
 
 var router = new VueRouter({
   routes: [{
@@ -45,6 +49,14 @@ var router = new VueRouter({
     path: '/upload',
     name: 'upload',
     component: upload
+  },{
+      path: '/login',
+      name: 'login',
+      component: login
+  },{
+      path: '/register',
+      name: 'register',
+      component: register
   }]
 });
 
