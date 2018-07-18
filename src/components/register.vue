@@ -4,15 +4,21 @@
             <img class="title" src="../assets/registered.png"/>
             <p class="user">
                 <img class="userIcon" src="../assets/registerIcon.png"/>
-                <input class="username" v-model="username" placeholder="请输入您的用户名"/>
+                <input class="username" v-model="username" @input="usernameCheck" placeholder="请输入您的用户名"/>
+                <img class="checkIcon" v-if="username != '' && userCheck" src="../assets/yes.png"/>
+                <img class="checkIcon" v-else-if="username != '' && !userCheck" src="../assets/no.png"/>
             </p>
             <p class="pass">
                 <img class="passIcon" src="../assets/lock.png"/>
-                <input class="password" type="password" v-model="password" placeholder="请输入您的密码"/>
+                <input class="password" type="password" v-model="password" @input="passwordCheck" placeholder="请输入您的密码"/>
+                <img class="checkIcon" v-if="password != '' && passCheck" src="../assets/yes.png"/>
+                <img class="checkIcon" v-else-if="password != '' && !passCheck" src="../assets/no.png"/>
             </p>
             <p class="passCheck">
                 <img class="passIcon" src="../assets/lock.png"/>
-                <input class="password" type="password" v-model="check" placeholder="再次输入您的密码"/>
+                <input class="password" type="password" v-model="recheck" @input="passwordreCheck" placeholder="再次输入您的密码"/>
+                <img class="checkIcon" v-if="passreCheck && passCheck" src="../assets/yes.png"/>
+                <img class="checkIcon" v-else-if="!passreCheck && this.recheck != ''" src="../assets/no.png"/>
             </p>
             <p class="invi">
                 <img class="inviteIcon" src="../assets/invitation.png"/>
@@ -30,10 +36,38 @@
             return {
                 username: "",
                 password: "",
-                check: "",
-                invite: ""
+                recheck: "",
+                invite: "",
+                passCheck: false,
+                userCheck: false,
+                passreCheck: false
             }
         },
+        methods: {
+            passwordCheck () {
+                var reg = /^[0-9a-zA-Z!@#$%^&*()_=+^]{8,16}$/;
+                if(reg.test(this.password)){
+                    this.passCheck = true;
+                }else{
+                    this.passCheck = false;
+                }
+            },
+            passwordreCheck () {
+                if(this.recheck == this.password){
+                    this.passreCheck = true;
+                }else{
+                    this.passreCheck = false;
+                }
+            },
+            usernameCheck () {
+                var reg = /^(?!_)(?!.*?_$)[a-zA-Z0-9_\u4e00-\u9fa5]{4,10}$/;
+                if(reg.test(this.username)){
+                    this.userCheck = true;
+                }else{
+                    this.userCheck = false;
+                }
+            }
+        }
     }
 </script>
 
@@ -76,6 +110,14 @@
         height: 2rem;
         top: 2.75rem;
         left: 5.5rem;
+    }
+
+    .checkIcon {
+        position: absolute;
+        width: 1.5rem;
+        height: 1.5rem;
+        top: 3rem;
+        right: 6rem;
     }
 
     .username,
