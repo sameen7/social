@@ -30,6 +30,7 @@
 </template>
 
 <script>
+    import axios from 'axios'
     export default {
         name: "register",
         data () {
@@ -40,8 +41,11 @@
                 invite: "",
                 passCheck: false,
                 userCheck: false,
-                passreCheck: false
+                passreCheck: false,
             }
+        },
+        created: function () {
+
         },
         methods: {
             passwordCheck () {

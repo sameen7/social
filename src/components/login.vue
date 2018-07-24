@@ -15,7 +15,8 @@
                 <img class="checkIcon" v-if="password != '' && passCheck" src="../assets/yes.png"/>
                 <img class="checkIcon" v-else-if="password != '' && !passCheck" src="../assets/no.png"/>
             </p>
-            <button class="login">登录</button>
+            <p class="info" v-if="showHint">{{hint}}</p>
+            <button class="login" @click="goLogin">登录</button>
             <p class="register"><span @click="goRegister">还没注册账号！</span></p>
         </div>
     </div>
@@ -24,6 +25,7 @@
 <script>
     import Vue from 'vue'
     import {Icon} from 'iview';
+    import axios from 'axios'
     Vue.component('Icon', Icon);
     export default {
         name: "login",
@@ -32,7 +34,9 @@
               username: "",
               password: "",
               passCheck: false,
-              userCheck: false
+              userCheck: false,
+              hint: "",
+              showHint: false
           }
         },
         created: function () {
@@ -43,7 +47,7 @@
                 this.$router.push("/register")
             },
             passwordCheck () {
-                var reg = /^[0-9a-zA-Z!@#$%^&*()_=+^]{8,16}$/;
+                var reg = /^[0-9a-zA-Z!@#$%^&*()_=+^]{6,16}$/;
                 if(reg.test(this.password)){
                     this.passCheck = true;
                 }else{
@@ -51,11 +55,31 @@
                 }
             },
             usernameCheck () {
-                var reg = /^(?!_)(?!.*?_$)[a-zA-Z0-9_\u4e00-\u9fa5]{4,10}$/;
+                var reg = /^(?!_)(?!.*?_$)[a-zA-Z0-9_\u4e00-\u9fa5]{3,10}$/;
                 if(reg.test(this.username)){
                     this.userCheck = true;
                 }else{
                     this.userCheck = false;
+                }
+            },
+            goLogin () {
+                if(this.userCheck && this.passCheck){
+                    axios.defaults.withCredentials = true;
+                    axios.post('/api/Login?username=' + this.username + "&pwd=" + this.password).then(response => {
+                        console.log(response);
+                        if(response.data == 1){
+                            this.$router.push("/")
+                            this.showHint = false;
+                        }else{
+                            this.hint = "用户名或密码错误！"
+                            this.showHint = true;
+                        }
+                    }).catch(error => {
+                        console.log("error");
+                    })
+                }else{
+                    this.hint = "请输入合法的用户名和密码！"
+                    this.showHint = true;
                 }
             }
         }
@@ -135,6 +159,13 @@
     font-size: 1.8rem;
     line-height: 3.5rem;
     font-weight: 500;
+}
+
+.info {
+    color: #d81e06;
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-top: 2rem;
 }
 
 .register {

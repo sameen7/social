@@ -61,7 +61,6 @@ export default {
   data () {
     return {
       activeName: "",
-        login: login,
         loginPath: false
     }
   },
@@ -85,12 +84,15 @@ export default {
     },
     pathChange () {
       var path = this.$route.path;
+      console.log("111" + path);
       if(path == "/"){
         this.activeName = "home";
+          this.loginPath = false;
       }else if(path == "/login" || path == "/register"){
         this.loginPath = true;
       }else{
           this.activeName = path.replace("/", "");
+          this.loginPath = false;
       }
     }
   }

@@ -11,8 +11,26 @@
 </template>
 
 <script>
+    import axios from 'axios'
     export default {
-        name: "upload"
+        name: "upload",
+        data () {
+            return {
+                username: ""
+            }
+        },
+        created: function () {
+            axios.defaults.withCredentials = true;
+            axios.get('/api/Logged').then(response => {
+                var str = response.data;
+                if(str == 0){
+                    this.$router.push("/login");
+                }else{
+                    this.username = str.slice(2, str.length);
+                    console.log(this.username);
+                }
+            })
+        },
     }
 </script>
 

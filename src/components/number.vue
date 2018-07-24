@@ -70,10 +70,21 @@
           count: [],
           countData: [],
           date: "",
-            zoom: 5
+            zoom: 5,
+            username: ""
         }
       },
       created: function () {
+          axios.defaults.withCredentials = true;
+          axios.get('/api/Logged').then(response => {
+              var str = response.data;
+              if(str == 0){
+                  this.$router.push("/login");
+              }else{
+                  this.username = str.slice(2, str.length);
+                  console.log(this.username);
+              }
+          })
 
       },
       mounted: function() {

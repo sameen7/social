@@ -415,10 +415,21 @@
                     key: 'men'
                 }
             ],
-            Data2: []
+            Data2: [],
+            username: ""
         }
       },
         created: function() {
+            axios.defaults.withCredentials = true;
+            axios.get('/api/Logged').then(response => {
+                var str = response.data;
+                if(str == 0){
+                    this.$router.push("/login");
+                }else{
+                    this.username = str.slice(2, str.length);
+                    console.log(this.username);
+                }
+            });
           var i;
           for(i = 0; i < 34; i++){
               var c = {};

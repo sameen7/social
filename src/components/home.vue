@@ -85,12 +85,26 @@
             tweenedNumber: 0,
             tweenedNumber2: 0,
             tweenedNumber3: 0,
-            tweenedNumber4: 0
+            tweenedNumber4: 0,
+            username: ""
         }
       },
         created: function () {
-
             axios.defaults.withCredentials = true;
+            axios.get('/api/Logged').then(response => {
+                var str = response.data;
+                if(str == 0){
+                    this.$router.push("/login");
+                }else{
+                    this.username = str.slice(2, str.length);
+                    console.log(this.username);
+                }
+            })
+            //     .catch(error => {
+            //     console.log("error");
+            // });
+
+
             axios.get('/api/Summary').then(response => {
                 // console.log(response.data);
                 this.team = response.data.team;
