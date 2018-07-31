@@ -335,11 +335,11 @@
               key: 'dat'
             },
             {
-              title: '省',
+              title: '省／国',
               key: 'pro'
             },
             {
-              title: '市',
+              title: '市／区',
               key: 'cit'
             }
           ],
