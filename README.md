@@ -2,6 +2,8 @@
 
 > A Vue.js project
 
+![111](https://github.com/sameen7/social/blob/master/src/assets/1.png)
+
 ## Build Setup
 
 ``` bash
