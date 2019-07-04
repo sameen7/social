@@ -223,10 +223,22 @@
               value: 24,
               label: "24系"
             },
+              {
+                  value: 25,
+                  label: "25系"
+              },
             {
               value: 26,
               label: "26系"
             },
+              {
+                  value: 27,
+                  label: "26系"
+              },
+              {
+                  value: 28,
+                  label: "26系"
+              },
             {
               value: 29,
               label: "29系"
@@ -238,6 +250,9 @@
               value: 35,
               label: "35系"
             },{
+                  value: 39,
+                  label: "39系"
+              },{
               value: 73,
               label: "73系"
             },{

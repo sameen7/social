@@ -95,13 +95,11 @@
         for(i = 1; i < 22; i++){
           this.dno.push(i + "系");
         }
-        for(i = 23; i < 25; i++){
+        for(i = 23; i < 31; i++){
           this.dno.push(i + "系");
         }
-        this.dno.push("26系");
-        this.dno.push("29系");
-        this.dno.push("30系");
         this.dno.push("35系");
+        this.dno.push("39系");
         for(i = 73; i < 78; i++){
           this.dno.push(i + "系");
         }

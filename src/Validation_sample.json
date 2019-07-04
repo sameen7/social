@@ -1,0 +1,204 @@
+{
+	"Status": 14,
+	"Message": "Failed",
+	"Data": {
+		"data": {
+			"1": {
+				"stuNo_Table": {
+					"head": [
+						{
+             				"title": "姓名",
+             				"key": "stuName"
+            			},
+            			{
+              				"title": "学号",
+              				"key": "stuNo",
+              				"colored": 1
+            			},
+            			{
+              				"title": "行号",
+              				"key": "rowId"
+            			}
+					],
+					"data": [
+						[{
+							"stuName": "二瓜",
+							"stuNo": "15005014",
+							"rowId": 1
+						}, {
+							"stuName": "三瓜",
+							"stuNo": "15005014",
+							"rowId": 2
+						}, {
+							"stuName": "四瓜",
+							"stuNo": "15005014",
+							"rowId": 3
+						}]
+					]
+				},
+				"stuNo_Team": {
+					"head": [
+						{
+             				"title": "姓名",
+             				"key": "stuName"
+            			},
+            			{
+              				"title": "学号",
+              				"key": "stuNo",
+              				"className": "colored"
+            			}
+					],
+					"data": [
+						[{
+							"stuName": "李瓜",
+							"stuNo": "140211111"
+						}, {
+							"stuName": "张瓜",
+							"stuNo": "140211111"
+						}]
+					]
+				},
+				"stuNo_History": {
+					"head": [
+						{
+             				"title": "姓名",
+             				"key": "stuName"
+            			},
+            			{
+              				"title": "学号",
+              				"key": "stuNo",
+              				"className": "colored"
+            			}
+					],
+					"data": [
+						[{
+							"stuName": "王鑫鑫",
+							"stuNo": "14031011"
+						}, {
+							"stuName": "王鑫",
+							"stuNo": "14031011"
+						}],
+						[{
+							"stuName": "二瓜",
+							"stuNo": "15005014"
+						}, {
+							"stuName": "魏柠西",
+							"stuNo": "15005014"
+						}]
+					]
+				}
+			},
+			"2": {
+				"TeamName_Table": [{
+					"teamName": "航发梦实践2",
+					"teamTeacher": "李四",
+					"teamLeaderId": "18371111",
+					"dep": 1,
+					"rowId": 2
+				}, {
+					"teamName": "航发梦实践2",
+					"teamTeacher": "李四",
+					"teamLeaderId": "18371111",
+					"dep": 1,
+					"rowId": 3
+				}],
+				"stuNo_Table": [
+					[{
+						"stuName": "二瓜",
+						"stuNo": "15005014",
+						"rowId": 1
+					}, {
+						"stuName": "三瓜",
+						"stuNo": "15005014",
+						"rowId": 2
+					}, {
+						"stuName": "四瓜",
+						"stuNo": "15005014",
+						"rowId": 3
+					}]
+				],
+				"stuNo_Team": [
+					[{
+						"stuName": "李瓜",
+						"stuNo": "140211111"
+					}, {
+						"stuName": "张瓜",
+						"stuNo": "140211111"
+					}]
+				],
+				"stuNo_History": [
+					[{
+						"stuName": "王鑫鑫",
+						"stuNo": "14031011"
+					}, {
+						"stuName": "王鑫",
+						"stuNo": "14031011"
+					}],
+					[{
+						"stuName": "三瓜",
+						"stuNo": "15005014"
+					}, {
+						"stuName": "魏柠西",
+						"stuNo": "15005014"
+					}]
+				]
+			},
+			"3": {
+				"TeamName_Table": [{
+					"teamName": "航发梦实践2",
+					"teamTeacher": "李四",
+					"teamLeaderId": "18371111",
+					"dep": 1,
+					"rowId": 2
+				}, {
+					"teamName": "航发梦实践2",
+					"teamTeacher": "李四",
+					"teamLeaderId": "18371111",
+					"dep": 1,
+					"rowId": 3
+				}],
+				"stuNo_Table": [
+					[{
+						"stuName": "二瓜",
+						"stuNo": "15005014",
+						"rowId": 1
+					}, {
+						"stuName": "三瓜",
+						"stuNo": "15005014",
+						"rowId": 2
+					}, {
+						"stuName": "四瓜",
+						"stuNo": "15005014",
+						"rowId": 3
+					}]
+				],
+				"stuNo_Team": [
+					[{
+						"stuName": "李瓜",
+						"stuNo": "140211111"
+					}, {
+						"stuName": "张瓜",
+						"stuNo": "140211111"
+					}]
+				],
+				"stuNo_History": [
+					[{
+						"stuName": "王鑫鑫",
+						"stuNo": "14031011"
+					}, {
+						"stuName": "王鑫",
+						"stuNo": "14031011"
+					}],
+					[{
+						"stuName": "四瓜",
+						"stuNo": "15005014"
+					}, {
+						"stuName": "魏柠西",
+						"stuNo": "15005014"
+					}]
+				]
+			}
+		},
+		"keys": [1, 2, 3]
+	}
+}
