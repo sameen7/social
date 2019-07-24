@@ -68,7 +68,7 @@
             实践队
             <Button type="info" icon="ios-cloud-download-outline" size="small" class="download" @click="exportData" :loading="ProjectList.length == 0">导出</Button>
           </p>
-          <Table class="teamTable" height="240" stripe highlight-row ref="table1" @on-row-click="showInfo" :columns="team5" :data="ProjectList" :loading="ProjectList.length == 0"></Table>
+          <Table class="teamTable" height="440" stripe highlight-row ref="table1" @on-row-click="showInfo" :columns="team5" :data="ProjectList" :loading="ProjectList.length == 0"></Table>
         </Card>
       </Row>
       <Row :gutter="16">
@@ -609,7 +609,7 @@
     margin-top: 40px;
   }
   .teamTable {
-    max-height: 240px;
+    max-height: 440px;
   }
   .info,
   .member,
